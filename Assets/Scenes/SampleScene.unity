@@ -2254,11 +2254,11 @@ MonoBehaviour:
   conditionalDialogues:
   - actorName: Max
     sentences:
-    - "Mandou bem! Essa antena garante aquela lat\xEAncia baix\xEDssima. Com a Claro,
-      seu jogo roda liso, sem travar na hora decisiva."
-    - "Agora o desafio \xE9 altura. A pr\xF3xima antena est\xE1 no no pr\xE9dio mais
-      alto dessa cidade."
-    requiredQuest: Ativar antena 1
+    - Estabilidade Garantida!
+    - "O mapa todo t\xE1 iluminado! Voc\xEA salvou o dia. "
+    - Agora todo mundo pode curtir o Sol e o sinal da Claro, que nascem para todos.
+    - "Valeu pela parceria, voc\xEA \xE9 o verdadeiro MVP da conex\xE3o!"
+    requiredQuest: Ativar antena 3
     questMustBeCompleted: 1
   - actorName: Max
     sentences:
@@ -2270,11 +2270,11 @@ MonoBehaviour:
     questMustBeCompleted: 1
   - actorName: Max
     sentences:
-    - Estabilidade Garantida!
-    - "O mapa todo t\xE1 iluminado! Voc\xEA salvou o dia. "
-    - Agora todo mundo pode curtir o Sol e o sinal da Claro, que nascem para todos.
-    - "Valeu pela parceria, voc\xEA \xE9 o verdadeiro MVP da conex\xE3o!"
-    requiredQuest: Ativar antena 3
+    - "Mandou bem! Essa antena garante aquela lat\xEAncia baix\xEDssima. Com a Claro,
+      seu jogo roda liso, sem travar na hora decisiva."
+    - "Agora o desafio \xE9 altura. A pr\xF3xima antena est\xE1 no no pr\xE9dio mais
+      alto dessa cidade."
+    requiredQuest: Ativar antena 1
     questMustBeCompleted: 1
 --- !u!1 &799193414
 GameObject:
