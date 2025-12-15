@@ -136,10 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0958ce4696239489bacfae18eb218e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestTrigger
-  questName: Ativar antena 1
-  objectToSpawn: {fileID: 6126590257651962363, guid: 72f086ca9dd61ca4780164862d7164c9, type: 3}
-  spawnPosition: {fileID: 45715104}
-  objectToDestroy: {fileID: 5195679}
 --- !u!1 &45715103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,14 +1272,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 229717926}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 93.399574, y: 19.575193, z: 407.65982}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.3995743, y: -1.3248062, z: 638.95984}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1611132828}
   - {fileID: 996779703}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1784532769103322374}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &250409204
 PrefabInstance:
@@ -1370,10 +1366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0958ce4696239489bacfae18eb218e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestTrigger
-  questName: Ativar antena 2
-  objectToSpawn: {fileID: 6126590257651962363, guid: 72f086ca9dd61ca4780164862d7164c9, type: 3}
-  spawnPosition: {fileID: 799193415}
-  objectToDestroy: {fileID: 265405808}
 --- !u!65 &265405814
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3118,17 +3110,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8e3a1f75e838994b8f8a3ba058e748a, type: 3}
---- !u!114 &911403242 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7017765820280073210, guid: f5585d5b6eb3e004883385ef73c7e064, type: 3}
-  m_PrefabInstance: {fileID: 164940702}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
 --- !u!4 &996779703 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5771391200268549938, guid: c8e3a1f75e838994b8f8a3ba058e748a, type: 3}
@@ -3702,10 +3683,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0958ce4696239489bacfae18eb218e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestTrigger
-  questName: Ativar antena 3
-  objectToSpawn: {fileID: 6126590257651962363, guid: 72f086ca9dd61ca4780164862d7164c9, type: 3}
-  spawnPosition: {fileID: 1409542686}
-  objectToDestroy: {fileID: 1765804201}
 --- !u!65 &1765804207
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3990,7 +3967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueControl
   dialogueObj: {fileID: 1843103538}
   actorNameText: {fileID: 260413962}
-  sentenceText: {fileID: 911403242}
+  speetchText: {fileID: 0}
   typingSpeed: 0
 --- !u!4 &2088042220
 Transform:
@@ -13686,6 +13663,7 @@ Transform:
   - {fileID: 1504292151}
   - {fileID: 383578759}
   - {fileID: 412803433}
+  - {fileID: 229717927}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1786499884233670513
@@ -20431,13 +20409,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3547117954158580949}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000004371139}
-  m_LocalPosition: {x: -20, y: -1.45, z: 49.68}
+  m_LocalRotation: {x: -0, y: -0.9999936, z: -0.0035778454, w: 0}
+  m_LocalPosition: {x: -20, y: -1.45, z: 49.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4335273521218627533}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.41, y: -180, z: 0}
 --- !u!23 &3149949756555540922
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47133,4 +47111,3 @@ SceneRoots:
   - {fileID: 799193415}
   - {fileID: 1409542686}
   - {fileID: 1784532769103322374}
-  - {fileID: 229717927}
