@@ -8,7 +8,7 @@ public class DialogueControl : MonoBehaviour
     [Header("Components")]
     public GameObject dialogueObj;
     public Text actorNameText;
-    public Text sentenceText;
+    public Text speetchText;
 
     [Header("Variables")]
     public float typingSpeed;
@@ -33,7 +33,7 @@ public class DialogueControl : MonoBehaviour
         }
 
         dialogueObj.SetActive(true);
-        sentenceText.text = "";
+        speetchText.text = "";
         actorNameText.text = actorName;
         sentences = txt;
         index = 0;
@@ -43,10 +43,10 @@ public class DialogueControl : MonoBehaviour
 
     IEnumerator TypeSentence()
     {
-        sentenceText.text = "";
+        speetchText.text = "";
         foreach (char letter in sentences[index].ToCharArray())
         {
-            sentenceText.text += letter;
+            speetchText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
         typingCoroutine = null;
@@ -54,12 +54,12 @@ public class DialogueControl : MonoBehaviour
 
     public void NextSentence()
     {
-        if (sentenceText.text == sentences[index])
+        if (speetchText.text == sentences[index])
         {
             if (index < sentences.Length - 1)
             {
                 index++;
-                sentenceText.text = "";
+                speetchText.text = "";
                 if (typingCoroutine != null)
                 {
                     StopCoroutine(typingCoroutine);
@@ -73,13 +73,18 @@ public class DialogueControl : MonoBehaviour
         }
     }
 
+    public void PrevSentence(InputAction.CallbackContext context)
+    {
+
+    }
+
     public void HidePanel()
     {
         if (typingCoroutine != null)
         {
             StopCoroutine(typingCoroutine);
         }
-        sentenceText.text = "";
+        speetchText.text = "";
         actorNameText.text = "";
         index = 0;
         dialogueObj.SetActive(false);
@@ -87,7 +92,7 @@ public class DialogueControl : MonoBehaviour
 
     public void EndDialogue()
     {
-        sentenceText.text = "";
+        speetchText.text = "";
         index = 0;
         dialogueObj.SetActive(false);
     }

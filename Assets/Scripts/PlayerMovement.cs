@@ -5,7 +5,6 @@ public class PlayerMoviment : MonoBehaviour
 {
     [Header("Components")]
     private CharacterController controller;
-    private Transform myCamera;
     private Animator animator;
     [SerializeField] private Transform foot; //objeto responsavel pelo chao
     [SerializeField] private LayerMask colisionLayer; //layer de colisao
@@ -19,8 +18,16 @@ public class PlayerMoviment : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        myCamera = Camera.main.transform;
         animator = GetComponent<Animator>();
+    }
+
+    /// <summary>
+    /// Retorna a cÃ¢mera ativa atual (atualiza dinamicamente quando troca de cÃ¢mera)
+    /// </summary>
+    private Transform GetActiveCamera()
+    {
+        Camera mainCam = Camera.main;
+        return mainCam != null ? mainCam.transform : null;
     }
 
     void Update()
@@ -45,10 +52,16 @@ public class PlayerMoviment : MonoBehaviour
         Vector3 movimento = new Vector3(horizontal, 0, vertical);
 
         movimento = Vector3.ClampMagnitude(movimento, 1f); // Normaliza a velocidade diagonal de movimento
-        movimento = myCamera.TransformDirection(movimento);
-        movimento.y = 0; // Mantém o movimento no plano horizontal
+        
+        // Usa a cÃ¢mera ativa atual para calcular a direÃ§Ã£o do movimento
+        Transform activeCamera = GetActiveCamera();
+        if (activeCamera != null)
+        {
+            movimento = activeCamera.TransformDirection(movimento);
+        }
+        movimento.y = 0; // Mantï¿½m o movimento no plano horizontal
 
-        // Detecta se o jogador está correndo (Shift esquerdo ou direito)
+        // Detecta se o jogador estï¿½ correndo (Shift esquerdo ou direito)
         bool isSprinting = false;
         var keyboard = Keyboard.current;
         if (keyboard != null)
@@ -68,7 +81,7 @@ public class PlayerMoviment : MonoBehaviour
         }
 
         animator.SetBool("Mover", movimento != Vector3.zero);
-        // Se quiser adicionar uma animação de corrida, crie um parâmetro "Run" no Animator e descomente a linha abaixo:
+        // Se quiser adicionar uma animaï¿½ï¿½o de corrida, crie um parï¿½metro "Run" no Animator e descomente a linha abaixo:
         animator.SetBool("Run", isSprinting && movimento != Vector3.zero);
 
         isGround = Physics.CheckSphere(foot.position, 0.3f, colisionLayer);
@@ -78,7 +91,7 @@ public class PlayerMoviment : MonoBehaviour
 
     public void Jump()
     {
-        //Debug.Log("Estou no chão?" + isGround);
+        //Debug.Log("Estou no chï¿½o?" + isGround);
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame && isGround)
         {
