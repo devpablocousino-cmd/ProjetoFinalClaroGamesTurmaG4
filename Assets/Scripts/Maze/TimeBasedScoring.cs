@@ -141,16 +141,18 @@ public class TimeBasedScoring : MonoBehaviour
     }
     
     /// <summary>
-    /// Retorna string visual de estrelas (* preenchida, - vazia)
+    /// Retorna string visual de estrelas
     /// </summary>
     public string GetStarsString(int stars)
     {
+        // Usando asteriscos para compatibilidade com LiberationSans
+        // Se quiser símbolos melhores, troque a fonte do StarsText para uma que suporte Unicode
         return stars switch
         {
-            3 => "***",
-            2 => "**-",
-            1 => "*--",
-            _ => "---"
+            3 => "* * *",
+            2 => "* * o",
+            1 => "* o o",
+            _ => "o o o"
         };
     }
     

@@ -32,9 +32,24 @@ public class DialogueControl : MonoBehaviour
             StopCoroutine(typingCoroutine);
         }
 
-        dialogueObj.SetActive(true);
-        speetchText.text = "";
-        actorNameText.text = actorName;
+        if (dialogueObj != null)
+        {
+            dialogueObj.SetActive(true);
+            Debug.Log("Quest View ativado!");
+        }
+        
+        if (speetchText != null)
+        {
+            speetchText.text = "";
+            Debug.Log("Texto iniciado. Primeira frase: " + (txt.Length > 0 ? txt[0] : "VAZIO"));
+        }
+        
+        if (actorNameText != null)
+        {
+            actorNameText.text = actorName;
+            Debug.Log("Nome do ator: " + actorName);
+        }
+        
         sentences = txt;
         index = 0;
         typingCoroutine = StartCoroutine(TypeSentence());
@@ -84,10 +99,17 @@ public class DialogueControl : MonoBehaviour
         {
             StopCoroutine(typingCoroutine);
         }
-        speetchText.text = "";
-        actorNameText.text = "";
+        
+        if (speetchText != null)
+            speetchText.text = "";
+        
+        if (actorNameText != null)
+            actorNameText.text = "";
+        
         index = 0;
-        dialogueObj.SetActive(false);
+        
+        if (dialogueObj != null)
+            dialogueObj.SetActive(false);
     }
 
     public void EndDialogue()

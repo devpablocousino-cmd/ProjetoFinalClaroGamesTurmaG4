@@ -16,7 +16,9 @@ public class NPC_AI : MonoBehaviour
     public int currentWayPointIndex = 0;
     public float speed = 2f;
     private bool isPlayerDetected = false;
-    private bool onRadious;
+    
+    // Getter público para outros scripts verificarem se o player está no alcance do NPC
+    public bool IsPlayerInRange { get; private set; }
 
     void Start()
     {
@@ -51,13 +53,13 @@ public class NPC_AI : MonoBehaviour
         }
 
         navMeshAgent.SetDestination(wayPoints[currentWayPointIndex].position);
-        onRadious = false;
+        IsPlayerInRange = false; // NPC está caminhando, não está perto do player
     }
 
     private void stopMalking()
     {
         navMeshAgent.isStopped = true;
-        onRadious = true;
+        IsPlayerInRange = true; // NPC parou porque player está no alcance
     }
 
     private void OnTriggerEnter(Collider other)
@@ -65,7 +67,10 @@ public class NPC_AI : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerDetected = true;
-            dialogue.SetActive(true);
+            
+            if (dialogue != null)
+                dialogue.SetActive(true);
+            
             Debug.Log("Player Detected");
         }
     }
@@ -75,7 +80,9 @@ public class NPC_AI : MonoBehaviour
         {
             isPlayerDetected = false;
             navMeshAgent.isStopped = false;
-            dialogue.SetActive(false);
+            
+            if (dialogue != null)
+                dialogue.SetActive(false);
         }
     }
 }
