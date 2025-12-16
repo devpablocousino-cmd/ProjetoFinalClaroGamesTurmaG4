@@ -41,21 +41,35 @@ public class WheelchairMovement : MonoBehaviour
         float vertical = 0f;
 
         // Captura direta das teclas usando o novo Input System
-        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) horizontal -= 1f;
-        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) horizontal += 1f;
+        // Horizontal: A/Seta Esquerda = -1, D/Seta Direita = +1
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) horizontal = -1f;
+        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) horizontal = 1f;
 
-        if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) vertical -= 1f;
-        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) vertical += 1f;
+        // Vertical: W/Seta Cima = +1 (frente), S/Seta Baixo = -1 (trás)
+        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) vertical = 1f;
+        if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) vertical = -1f;
 
-        // Cria o vetor de movimento relativo ao input
+        // Cria o vetor de movimento: X = horizontal (esquerda/direita), Z = vertical (frente/trás)
         Vector3 movimento = new Vector3(horizontal, 0, vertical);
 
         // Normaliza para evitar movimento mais rápido na diagonal (magnitude máxima 1f)
         movimento = Vector3.ClampMagnitude(movimento, 1f);
 
-        // Transforma o input relativo à direção que a câmera está olhando (orientação da câmera)
-        movimento = myCamera.TransformDirection(movimento);
-        movimento.y = 0; // Mantém o movimento estritamente no plano horizontal (sem voar)
+        // Atualiza a referência da câmera dinamicamente (importante para troca de câmeras)
+        Camera mainCam = Camera.main;
+        if (mainCam != null)
+        {
+            myCamera = mainCam.transform;
+        }
+
+        // Usa apenas a rotação horizontal (Y) da câmera para calcular a direção
+        if (myCamera != null && movimento != Vector3.zero)
+        {
+            // Pega apenas a rotação Y da câmera (ignora inclinação)
+            float cameraYaw = myCamera.eulerAngles.y;
+            Quaternion rotacao = Quaternion.Euler(0, cameraYaw, 0);
+            movimento = rotacao * movimento;
+        }
 
         // Aplica o movimento usando o método Move() do CharacterController
         // Nota: O CharacterController gerencia automaticamente colisões e gravidade básicas.

@@ -79,18 +79,29 @@ public class MazeExitPoint : MonoBehaviour
                 meshRenderer.material.color = highlightColor;
             }
 
+            // Calcular moedas ganhas baseado no tempo
+            int coinsEarned = 0;
+            
             // Completar o minijogo
             if (timeScoring != null)
             {
                 timeScoring.CompleteMazeWithTimeBonus();
+                coinsEarned = timeScoring.GetLastEarnedStars() * timeScoring.GetPointsPerStar();
             }
             else if (ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.CompleteMaze();
+                coinsEarned = ScoreManager.Instance.GetLastMazeScore();
             }
             else
             {
                 Debug.LogError("[MazeExitPoint] ScoreManager.Instance é NULL e não há TimeBasedScoring configurado.");
+            }
+
+            // Notificar o GameManager que o minigame foi completado
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnMinigameComplete(true, coinsEarned);
             }
 
             // Sair do labirinto

@@ -69,22 +69,29 @@ public class DialogueControl : MonoBehaviour
 
     public void NextSentence()
     {
-        if (speetchText.text == sentences[index])
+        // Se não há frases, ignorar
+        if (sentences == null || sentences.Length == 0)
+            return;
+
+        // Se ainda está digitando, completar a frase instantaneamente
+        if (typingCoroutine != null)
         {
-            if (index < sentences.Length - 1)
-            {
-                index++;
-                speetchText.text = "";
-                if (typingCoroutine != null)
-                {
-                    StopCoroutine(typingCoroutine);
-                }
-                typingCoroutine = StartCoroutine(TypeSentence()); //armazenar a coroutine na variavel
-            }
-            else
-            {
-                EndDialogue();
-            }
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+            speetchText.text = sentences[index];
+            return;
+        }
+
+        // Se a frase já está completa, ir para a próxima
+        if (index < sentences.Length - 1)
+        {
+            index++;
+            speetchText.text = "";
+            typingCoroutine = StartCoroutine(TypeSentence());
+        }
+        else
+        {
+            EndDialogue();
         }
     }
 

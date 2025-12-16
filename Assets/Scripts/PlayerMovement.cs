@@ -43,23 +43,28 @@ public class PlayerMoviment : MonoBehaviour
         float horizontal = 0f;
         float vertical = 0f;
 
-        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) horizontal -= 1f;
-        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) horizontal += 1f;
+        // Horizontal: A/Seta Esquerda = -1, D/Seta Direita = +1
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) horizontal = -1f;
+        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) horizontal = 1f;
 
-        if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) vertical -= 1f;
-        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) vertical += 1f;
+        // Vertical: W/Seta Cima = +1 (frente), S/Seta Baixo = -1 (trás)
+        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) vertical = 1f;
+        if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) vertical = -1f;
 
+        // Cria o vetor de movimento: X = horizontal (esquerda/direita), Z = vertical (frente/trás)
         Vector3 movimento = new Vector3(horizontal, 0, vertical);
 
         movimento = Vector3.ClampMagnitude(movimento, 1f); // Normaliza a velocidade diagonal de movimento
         
-        // Usa a câmera ativa atual para calcular a direção do movimento
+        // Usa apenas a rotação horizontal (Y) da câmera para calcular a direção
         Transform activeCamera = GetActiveCamera();
-        if (activeCamera != null)
+        if (activeCamera != null && movimento != Vector3.zero)
         {
-            movimento = activeCamera.TransformDirection(movimento);
+            // Pega apenas a rotação Y da câmera (ignora inclinação)
+            float cameraYaw = activeCamera.eulerAngles.y;
+            Quaternion rotacao = Quaternion.Euler(0, cameraYaw, 0);
+            movimento = rotacao * movimento;
         }
-        movimento.y = 0; // Mant�m o movimento no plano horizontal
 
         // Detecta se o jogador est� correndo (Shift esquerdo ou direito)
         bool isSprinting = false;
