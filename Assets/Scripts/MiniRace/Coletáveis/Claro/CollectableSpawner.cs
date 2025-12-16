@@ -58,7 +58,17 @@ public class CollectableSpawner : MonoBehaviour
         if (!other.CompareTag("Player") && !other.GetComponentInParent<Rigidbody>().CompareTag("Player"))
             return;
 
-        Spawn();
+        Pontuacao pontuacao = other.GetComponentInParent<Pontuacao>();
+        if (pontuacao.GetCheckpoints() > 2)
+        {
+            Load load = other.GetComponentInParent<Load>();
+            load.DescarregarMiniRace();
+        }
+        else
+        {
+            pontuacao.ZerarCheckpoints();
+            Spawn();                    
+        }
     }
 
 

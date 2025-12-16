@@ -15,7 +15,7 @@ public class CoinCollect : MonoBehaviour
         {
             Pontuacao pontuacao = other.GetComponentInParent<Pontuacao>();
             pontuacao.AdicionarPontos(1);
-            PontuacaoText.text = "Pontuação: " + pontuacao.pontos.ToString();
+            PontuacaoText.text = pontuacao.GetPontos().ToString();
             Destroy(gameObject);
         }
     }
