@@ -6,14 +6,24 @@ public class PlayerMoviment : MonoBehaviour
     [Header("Components")]
     private CharacterController controller;
     private Animator animator;
-    [SerializeField] private Transform foot; //objeto responsavel pelo chao
-    [SerializeField] private LayerMask colisionLayer; //layer de colisao
 
-    [Header("Variables")]
-    public float velocity = 5f; //qual a forca de movimentacao do personagem
-    public float sprintMultiplier = 1.5f; // multiplicador de velocidade ao pressionar Shift
-    private bool isGround; //verifica se o personagem esta no chao
-    private float yForce; //forca aplicada no eixo y 
+    [SerializeField] private Transform foot;
+    [SerializeField] private LayerMask colisionLayer;
+
+    [Header("Movement")]
+    public float velocity = 5f;
+    public float sprintMultiplier = 1.5f;
+
+    private Vector2 moveInput;
+    private bool sprintPressed;
+    private bool jumpPressed;
+
+    private bool isGround;
+    private float yForce;
+
+    private Vector2 keyboardInput;
+    private Vector2 uiInput;
+
 
     void Start()
     {
@@ -21,96 +31,132 @@ public class PlayerMoviment : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    /// <summary>
-    /// Retorna a câmera ativa atual (atualiza dinamicamente quando troca de câmera)
-    /// </summary>
-    private Transform GetActiveCamera()
-    {
-        Camera mainCam = Camera.main;
-        return mainCam != null ? mainCam.transform : null;
-    }
-
     void Update()
     {
         Move();
         Jump();
+        ReadKeyboardInput();
     }
 
-    public void Move()
+    // =======================
+    // MOVIMENTO
+    // =======================
+    void Move()
     {
-        //Debug.Log("Executando o movimento do personagem...");
+        moveInput = Vector2.ClampMagnitude(keyboardInput + uiInput, 1f);
 
-        float horizontal = 0f;
-        float vertical = 0f;
+        Vector3 movimento = new Vector3(moveInput.x, 0, moveInput.y);
+        movimento = Vector3.ClampMagnitude(movimento, 1f);
 
-        // Horizontal: A/Seta Esquerda = -1, D/Seta Direita = +1
-        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) horizontal = -1f;
-        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) horizontal = 1f;
-
-        // Vertical: W/Seta Cima = +1 (frente), S/Seta Baixo = -1 (trás)
-        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) vertical = 1f;
-        if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) vertical = -1f;
-
-        // Cria o vetor de movimento: X = horizontal (esquerda/direita), Z = vertical (frente/trás)
-        Vector3 movimento = new Vector3(horizontal, 0, vertical);
-
-        movimento = Vector3.ClampMagnitude(movimento, 1f); // Normaliza a velocidade diagonal de movimento
-        
-        // Usa apenas a rotação horizontal (Y) da câmera para calcular a direção
-        Transform activeCamera = GetActiveCamera();
-        if (activeCamera != null && movimento != Vector3.zero)
+        Transform cam = Camera.main?.transform;
+        if (cam != null && movimento != Vector3.zero)
         {
-            // Pega apenas a rotação Y da câmera (ignora inclinação)
-            float cameraYaw = activeCamera.eulerAngles.y;
-            Quaternion rotacao = Quaternion.Euler(0, cameraYaw, 0);
-            movimento = rotacao * movimento;
+            float yaw = cam.eulerAngles.y;
+            movimento = Quaternion.Euler(0, yaw, 0) * movimento;
         }
 
-        // Detecta se o jogador est� correndo (Shift esquerdo ou direito)
-        bool isSprinting = false;
-        var keyboard = Keyboard.current;
-        if (keyboard != null)
-        {
-            isSprinting = keyboard.shiftKey.isPressed;
-        }
+        float speed = velocity * (sprintPressed ? sprintMultiplier : 1f);
+        controller.Move(movimento * speed * Time.deltaTime);
 
-        float currentSpeed = velocity * (isSprinting ? sprintMultiplier : 1f);
-
-        controller.Move(movimento * currentSpeed * Time.deltaTime); // Aplica o movimento ao CharacterController 
         if (movimento != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(
-                transform.rotation, Quaternion.LookRotation(movimento),
+                transform.rotation,
+                Quaternion.LookRotation(movimento),
                 Time.deltaTime * 10f
-             );
+            );
         }
 
         animator.SetBool("Mover", movimento != Vector3.zero);
-        // Se quiser adicionar uma anima��o de corrida, crie um par�metro "Run" no Animator e descomente a linha abaixo:
-        animator.SetBool("Run", isSprinting && movimento != Vector3.zero);
+        animator.SetBool("Run", sprintPressed && movimento != Vector3.zero);
 
         isGround = Physics.CheckSphere(foot.position, 0.3f, colisionLayer);
-        //Botar parametro isGround no animator
         animator.SetBool("isGround", isGround);
     }
 
-    public void Jump()
+    // =======================
+    // PULO
+    // =======================
+    void Jump()
     {
-        //Debug.Log("Estou no ch�o?" + isGround);
-
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && isGround)
+        if (jumpPressed && isGround)
         {
             yForce = 5f;
             animator.SetTrigger("Jump");
         }
 
-        if (yForce > -9.81f)
-        {
-            yForce += -9.81f * Time.deltaTime;
-        }
+        jumpPressed = false;
 
-        controller.Move(new Vector3(0, yForce, 0) * Time.deltaTime); // Aplica a gravidade ao CharacterController
-
+        yForce += Physics.gravity.y * Time.deltaTime;
+        controller.Move(Vector3.up * yForce * Time.deltaTime);
     }
+
+    // =======================
+    // INPUT (UI / MOBILE)
+    // =======================
+
+    public void SetMoveX(float value)
+    {
+        uiInput.x = value;
+    }
+
+    public void SetMoveY(float value)
+    {
+        uiInput.y = value;
+    }
+
+    public void StopMoveX()
+    {
+        uiInput.x = 0f;
+    }
+
+    public void StopMoveY()
+    {
+        uiInput.y = 0f;
+    }
+
+    public void SetSprint(bool value)
+    {
+        sprintPressed = value;
+    }
+
+    public void PressJump()
+    {
+        jumpPressed = true;
+    }
+
+    void ReadKeyboardInput()
+    {
+    var keyboard = Keyboard.current;
+    if (keyboard == null)
+    {
+        keyboardInput = Vector2.zero;
+        return;
+    }
+
+    float x = 0f;
+    float y = 0f;
+
+    if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) x = -1;
+    else if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) x = 1;
+
+    if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) y = 1;
+    else if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) y = -1;
+
+    keyboardInput = new Vector2(x, y);
+
+    sprintPressed = keyboard.shiftKey.isPressed;
+
+    if (keyboard.spaceKey.wasPressedThisFrame)
+        jumpPressed = true;
+        // Interação (E)
+        if (keyboard.eKey.wasPressedThisFrame)
+        {
+            var interaction = GetComponent<PlayerInteraction>();
+            if (interaction != null)
+                interaction.PressInteract();
+        }
+    }
+    
 
 }

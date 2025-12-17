@@ -22,6 +22,7 @@ public class MiniRaceEntryPoint : MonoBehaviour
 
     [Header("Exit References")]
     [SerializeField] private Transform cityReturnPoint;         // Onde o jogador volta após terminar
+    [SerializeField] private GameObject cityCanvas;              // Canvas/UI do GamePrincipal
 
     [Header("Scoring")]
     [SerializeField] private MiniRaceScoring raceScoring;       // Sistema de pontuação da corrida
@@ -239,6 +240,11 @@ public class MiniRaceEntryPoint : MonoBehaviour
             miniRaceCanvas.SetActive(true);
         }
 
+        if (cityCanvas != null)
+        {
+            cityCanvas.SetActive(false);
+        }
+
         // 5. Trocar câmera
         if (CameraManager.Instance != null)
         {
@@ -318,6 +324,11 @@ public class MiniRaceEntryPoint : MonoBehaviour
         if (miniRaceCanvas != null)
         {
             miniRaceCanvas.SetActive(false);
+        }
+
+        if (cityCanvas != null)
+        {
+            cityCanvas.SetActive(true);
         }
 
         // 2. Restaurar jogador

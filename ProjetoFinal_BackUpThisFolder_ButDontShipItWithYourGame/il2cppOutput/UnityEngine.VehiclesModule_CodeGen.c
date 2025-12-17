@@ -1,0 +1,81 @@
+﻿#include "pch-c.h"
+
+
+#include "codegen/il2cpp-codegen-metadata.h"
+
+
+
+
+
+extern void WheelCollider_set_radius_m43AA4113465733E26DD8B01774C9AD6C32424184 (void);
+extern void WheelCollider_get_suspensionSpring_m046582E587BF5AC228C2022D25A822BC4B4B9543 (void);
+extern void WheelCollider_set_suspensionSpring_m2E4ACAB8BE03081A58E217DAE84819CFA51A82B7 (void);
+extern void WheelCollider_set_motorTorque_m4958AAF7D867CF7570420F9BAFAF04DC904F02A8 (void);
+extern void WheelCollider_set_brakeTorque_mB9B216C57C275470907C7DB35185E2F192DC8DAB (void);
+extern void WheelCollider_set_steerAngle_m7BF83B27D8956355F873537939BE9F35CF3113C3 (void);
+extern void WheelCollider_GetWorldPose_m8C41FA2AE9ED543AB94A6E3226523A2FE83FA890 (void);
+extern void WheelCollider__ctor_mD44B2C97960274797DABD055BBEB18E664DAD906 (void);
+extern void WheelCollider_set_radius_Injected_mAE6D905B1F3F42CDC1806917730A14657EE28989 (void);
+extern void WheelCollider_get_suspensionSpring_Injected_m15DDA907765221AF05134BBEEC29943CF0BD0F20 (void);
+extern void WheelCollider_set_suspensionSpring_Injected_mE1BB7A53187F8D1F26E5152B6E1B88691C8BFBC6 (void);
+extern void WheelCollider_set_motorTorque_Injected_mDC3AFD111B0711D6D7450F3FDCC18386352888C2 (void);
+extern void WheelCollider_set_brakeTorque_Injected_mF745FF43BCCE204923ABCF9FD3F0725BFB6927E2 (void);
+extern void WheelCollider_set_steerAngle_Injected_m1D19C28872BFFC9C692FA4F50454A3400D5ACC20 (void);
+extern void WheelCollider_GetWorldPose_Injected_m5CADCBBA43204BA3C8EF66B85A568D7A685B28AE (void);
+static Il2CppMethodPointer s_methodPointers[15] = 
+{
+	WheelCollider_set_radius_m43AA4113465733E26DD8B01774C9AD6C32424184,
+	WheelCollider_get_suspensionSpring_m046582E587BF5AC228C2022D25A822BC4B4B9543,
+	WheelCollider_set_suspensionSpring_m2E4ACAB8BE03081A58E217DAE84819CFA51A82B7,
+	WheelCollider_set_motorTorque_m4958AAF7D867CF7570420F9BAFAF04DC904F02A8,
+	WheelCollider_set_brakeTorque_mB9B216C57C275470907C7DB35185E2F192DC8DAB,
+	WheelCollider_set_steerAngle_m7BF83B27D8956355F873537939BE9F35CF3113C3,
+	WheelCollider_GetWorldPose_m8C41FA2AE9ED543AB94A6E3226523A2FE83FA890,
+	WheelCollider__ctor_mD44B2C97960274797DABD055BBEB18E664DAD906,
+	WheelCollider_set_radius_Injected_mAE6D905B1F3F42CDC1806917730A14657EE28989,
+	WheelCollider_get_suspensionSpring_Injected_m15DDA907765221AF05134BBEEC29943CF0BD0F20,
+	WheelCollider_set_suspensionSpring_Injected_mE1BB7A53187F8D1F26E5152B6E1B88691C8BFBC6,
+	WheelCollider_set_motorTorque_Injected_mDC3AFD111B0711D6D7450F3FDCC18386352888C2,
+	WheelCollider_set_brakeTorque_Injected_mF745FF43BCCE204923ABCF9FD3F0725BFB6927E2,
+	WheelCollider_set_steerAngle_Injected_m1D19C28872BFFC9C692FA4F50454A3400D5ACC20,
+	WheelCollider_GetWorldPose_Injected_m5CADCBBA43204BA3C8EF66B85A568D7A685B28AE,
+};
+static const int32_t s_InvokerIndices[15] = 
+{
+	11251,
+	14383,
+	11099,
+	11251,
+	11251,
+	11251,
+	4681,
+	14651,
+	21250,
+	21243,
+	21243,
+	21250,
+	21250,
+	21250,
+	19166,
+};
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_UnityEngine_VehiclesModule_CodeGenModule;
+const Il2CppCodeGenModule g_UnityEngine_VehiclesModule_CodeGenModule = 
+{
+	"UnityEngine.VehiclesModule.dll",
+	15,
+	s_methodPointers,
+	0,
+	NULL,
+	s_InvokerIndices,
+	0,
+	NULL,
+	0,
+	NULL,
+	0,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};
