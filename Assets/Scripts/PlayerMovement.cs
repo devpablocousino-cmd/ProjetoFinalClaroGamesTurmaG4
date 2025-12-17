@@ -21,10 +21,6 @@ public class PlayerMoviment : MonoBehaviour
     private bool isGround;
     private float yForce;
 
-    private Vector2 keyboardInput;
-    private Vector2 uiInput;
-
-
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -35,7 +31,32 @@ public class PlayerMoviment : MonoBehaviour
     {
         Move();
         Jump();
-        ReadKeyboardInput();
+    }
+
+    // =======================
+    // INPUT SYSTEM CALLBACKS
+    // =======================
+
+    void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
+    }
+
+    void OnSprint(InputValue value)
+    {
+        sprintPressed = value.isPressed;
+    }
+
+    void OnJump()
+    {
+        jumpPressed = true;
+    }
+
+    void OnInteract()
+    {
+        var interaction = GetComponent<PlayerInteraction>();
+        if (interaction != null)
+            interaction.PressInteract();
     }
 
     // =======================
@@ -43,8 +64,6 @@ public class PlayerMoviment : MonoBehaviour
     // =======================
     void Move()
     {
-        moveInput = Vector2.ClampMagnitude(keyboardInput + uiInput, 1f);
-
         Vector3 movimento = new Vector3(moveInput.x, 0, moveInput.y);
         movimento = Vector3.ClampMagnitude(movimento, 1f);
 
@@ -90,73 +109,4 @@ public class PlayerMoviment : MonoBehaviour
         yForce += Physics.gravity.y * Time.deltaTime;
         controller.Move(Vector3.up * yForce * Time.deltaTime);
     }
-
-    // =======================
-    // INPUT (UI / MOBILE)
-    // =======================
-
-    public void SetMoveX(float value)
-    {
-        uiInput.x = value;
-    }
-
-    public void SetMoveY(float value)
-    {
-        uiInput.y = value;
-    }
-
-    public void StopMoveX()
-    {
-        uiInput.x = 0f;
-    }
-
-    public void StopMoveY()
-    {
-        uiInput.y = 0f;
-    }
-
-    public void SetSprint(bool value)
-    {
-        sprintPressed = value;
-    }
-
-    public void PressJump()
-    {
-        jumpPressed = true;
-    }
-
-    void ReadKeyboardInput()
-    {
-    var keyboard = Keyboard.current;
-    if (keyboard == null)
-    {
-        keyboardInput = Vector2.zero;
-        return;
-    }
-
-    float x = 0f;
-    float y = 0f;
-
-    if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) x = -1;
-    else if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) x = 1;
-
-    if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) y = 1;
-    else if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) y = -1;
-
-    keyboardInput = new Vector2(x, y);
-
-    sprintPressed = keyboard.shiftKey.isPressed;
-
-    if (keyboard.spaceKey.wasPressedThisFrame)
-        jumpPressed = true;
-        // Interação (E)
-        if (keyboard.eKey.wasPressedThisFrame)
-        {
-            var interaction = GetComponent<PlayerInteraction>();
-            if (interaction != null)
-                interaction.PressInteract();
-        }
-    }
-    
-
 }
