@@ -39,7 +39,7 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         // Garantir que a câmera da cidade está ativa no início
-        SetCityCamera();
+        SetCityCamera();        
     }
 
     /// <summary>
