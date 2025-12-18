@@ -14,6 +14,9 @@ public class PlayerMoviment : MonoBehaviour
     public float velocity = 5f;
     public float sprintMultiplier = 1.5f;
 
+    [Header("Mobile")]
+    public FloatingJoystick mobileJoystick; // opcional
+
     private Vector2 moveInput;
     private bool sprintPressed;
     private bool jumpPressed;
@@ -29,12 +32,13 @@ public class PlayerMoviment : MonoBehaviour
 
     void Update()
     {
+        ReadMobileInput();
         Move();
         Jump();
     }
 
     // =======================
-    // INPUT SYSTEM CALLBACKS
+    // INPUT SYSTEM CALLBACKS (PC / WEB)
     // =======================
 
     void OnMove(InputValue value)
@@ -60,8 +64,29 @@ public class PlayerMoviment : MonoBehaviour
     }
 
     // =======================
+    // MOBILE INPUT
+    // =======================
+
+    void ReadMobileInput()
+    {
+        if (mobileJoystick != null)
+        {
+            Vector2 joystickInput = new Vector2(
+                mobileJoystick.Horizontal,
+                mobileJoystick.Vertical
+            );
+
+            if (joystickInput.magnitude > 0.1f)
+            {
+                moveInput = joystickInput;
+            }
+        }
+    }
+
+    // =======================
     // MOVIMENTO
     // =======================
+
     void Move()
     {
         Vector3 movimento = new Vector3(moveInput.x, 0, moveInput.y);
@@ -96,6 +121,7 @@ public class PlayerMoviment : MonoBehaviour
     // =======================
     // PULO
     // =======================
+
     void Jump()
     {
         if (jumpPressed && isGround)
@@ -108,5 +134,19 @@ public class PlayerMoviment : MonoBehaviour
 
         yForce += Physics.gravity.y * Time.deltaTime;
         controller.Move(Vector3.up * yForce * Time.deltaTime);
+    }
+
+    // =======================
+    // MOBILE CALLBACKS (UI)
+    // =======================
+
+    public void MobileSprint(bool pressed)
+    {
+        sprintPressed = pressed;
+    }
+
+    public void MobileJump()
+    {
+        jumpPressed = true;
     }
 }
